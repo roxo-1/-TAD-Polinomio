@@ -1,3 +1,7 @@
+/*
+Carolina Lee - 10440304
+Pedro Gabriel Guimarães Fernandes - 10437465 
+*/
 #include <stdlib.h>
 #include <stdio.h>
 

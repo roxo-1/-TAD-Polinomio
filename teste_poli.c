@@ -1,4 +1,7 @@
 /*
+Carolina Lee - 10440304
+Pedro Gabriel Guimarães Fernandes - 10437465 
+
 Compile com:
 gcc -g poli.c teste_poli.c -o teste_poli
 

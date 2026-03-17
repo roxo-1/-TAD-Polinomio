@@ -1,3 +1,8 @@
+/*
+Carolina Lee - 10440304
+Pedro Gabriel Guimarães Fernandes - 10437465 
+*/
+
 #ifndef __POLI_H__
 #define __POLI_H__
 
