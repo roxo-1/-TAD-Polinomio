@@ -41,7 +41,12 @@ int poli_ins_termo(polinomio *p, int exp, int coef) {
 
 int poli_get_termo(polinomio *p, int exp, int *coef){
     // TODO: Implemente aqui a solucao para operacao get coeficiente
-    return *p->exp, *p->(*coef);
+    for(int i = 0; i<sizeof(p);i++){
+        if(i==exp){
+            return p->coeficientes[i];
+        }
+    }
+    return 0;
 }
 
 int calcula_px(polinomio *p, int x){
