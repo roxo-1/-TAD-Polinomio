@@ -9,27 +9,39 @@ Pedro Gabriel Guimarães Fernandes - 10437465
 
 polinomio * poli_create(int grau){
     // TODO: Implemente aqui a solucao para operacao create
-
-    return NULL;
+    polinomio *p;
+    p=malloc(sizeof(polinomio));
+    p->grau = grau;
+    p->coeficientes = malloc(grau * sizeof(int));
+    p->termos = 0;
+    return p;
+    // return NULL;
 }
 
 void poli_destroy(polinomio **p){
     // TODO: Implemente aqui a solucao para operacao destroy
-
-
-    return;
+    if (p == NULL || *p == NULL) {
+        return; // Safety check: don't try to free nothing
+    }
+    free((*p)->coeficientes);
+    free(*p);
+    *p=NULL;
+    // return;
 }
 
 int poli_ins_termo(polinomio *p, int exp, int coef) {
     // TODO: Implemente aqui a solucao para operacao insere coeficiente
-
+    for(int i = 0; i<sizeof(p);i++){
+        if(i==exp){
+            p->coeficientes[i] = coef;
+        }
+    }
     return 0;
 }
 
 int poli_get_termo(polinomio *p, int exp, int *coef){
     // TODO: Implemente aqui a solucao para operacao get coeficiente
-
-    return 0;
+    return *p->exp, *p->(*coef);
 }
 
 int calcula_px(polinomio *p, int x){
