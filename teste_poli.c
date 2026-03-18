@@ -22,11 +22,12 @@ valgrind --leak-check=yes ./teste_poli
 
 
 int testa_creation_destroy() {
-    polinomio *p = poli_create(4);
-    test_assert(p != NULL, "create retornou NULL!");
-    test_assert(p->coeficientes != NULL, "Vetor de coeficentes nao alocado corretamente!");
-    test_assert(p->grau == 4, "Grau do polinomio diferente de 4!");
-    test_assert(p->termos == 0, "Quantidade de validos deve ser igual 0!");
+    polinomio *p = poli_create(4); //cria um polinomio de grau 4
+    //teste destroy
+    test_assert(p != NULL, "create retornou NULL!");// polinômio deve ser nulo
+    test_assert(p->coeficientes != NULL, "Vetor de coeficentes nao alocado corretamente!"); // coeficiente deve ser nulo
+    test_assert(p->grau == 4, "Grau do polinomio diferente de 4!"); // grau não deve mudar
+    test_assert(p->termos == 0, "Quantidade de validos deve ser igual 0!");//CArol esse testes aqui estão dando certo então o erro não é aqui é no termo mesmo, ok
 
     poli_destroy(&p);
     test_assert(p == NULL, "p nao foi setado como NULL apos destroy!");
@@ -38,7 +39,7 @@ int testa_termo() {
     polinomio *p = poli_create(4);
     test_assert(p != NULL, "create retornou NULL para polinomio p!");
     test_assert(p->coeficientes != NULL, "Vetor de coeficentes nao alocado corretamente!");
-    test_assert(poli_ins_termo(p, -1, 5) == 0, "deveria falhar, expoente existente!");
+    test_assert(poli_ins_termo(p, -1, 5) == 0, "deveria falhar, expoente existente!"); // ele erra aqui, agnt deve estar esquecendo de inserir o expoente tbm
     test_assert(poli_ins_termo(p, 5, 1) == 0, "deveria falhar, expoente existente!");
     // preenche os coeficientes para o polinomio
     // p(x) = 2x^4 + 3x^3 - 5
