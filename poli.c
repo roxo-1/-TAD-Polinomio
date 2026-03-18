@@ -52,19 +52,18 @@ void poli_destroy(polinomio **p){
 int poli_ins_termo(polinomio *p, int exp, int coef) {
     // TODO: Implemente aqui a solucao para operacao insere coeficiente
     //Então pelo que eu li no poli.h essa função tem que retornar 1 se a operação deu certo e 0 se deu errado
-    for (int i = 0; i < exp; i++){
+    if((exp <= p->grau) && (exp >= 0)){
         p->coeficientes[exp] = coef;
-        if(p->grau == 1){
-            p->termos++;
-        }else if(p->grau == 0){
-            // p->termos =0;
-            return 0;
-        }
+        p->termos += 1;
+        return 1;
+    }else{
+        return 0;
+        printf("não");
     }
     // Precisamos inserir o coeficiente e o exp
     //p->grau diferente de 0, se sim termos aumenta. se ele for igual  1
     
-    return 0;//?Assim? Acho que sim mas agora precisamos ver como prencher a parte do meio
+    // return 0;//?Assim? Acho que sim mas agora precisamos ver como prencher a parte do meio
     //to tentando entender o codigo do polinomio
 }
 
