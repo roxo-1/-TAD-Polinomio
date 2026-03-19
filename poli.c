@@ -7,7 +7,6 @@ Pedro Gabriel Guimarães Fernandes - 10437465
 //valgrind --leak-check=yes ./teste_poli
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
 
 #include "poli.h"
 
@@ -82,11 +81,17 @@ int poli_get_termo(polinomio *p, int exp, int *coef){
 }
 
 int calcula_px(polinomio *p, int x){
-    // TODO: Implemente aqui a solucao para operacao calcula o valor de P(x)     
+    // TODO: Implemente aqui a solucao para operacao calcula o valor de P(x)    
     int soma = 0;
     for (int i = 0; i <= p->grau; i++)
     {
-        soma += p->coeficientes[i] * (pow(x, i));
+        int valor = 1;
+        for (int j = 0; j < i; j++)
+        {
+            valor *= x;
+        }
+        
+        soma += p->coeficientes[i] * valor;
     }
     
     return soma;
@@ -121,6 +126,8 @@ polinomio * poli_soma(polinomio *p, polinomio *q){
 
 polinomio * poli_mult(polinomio *p, polinomio *q){
     // TODO: Implemente aqui a solucao para operacao que multiplica dois polinomios e gera um terceiro
+    if(p == NULL || q == NULL) return NULL;
+    if(p->termos == 0 || q ->termos == 0) return NULL;
     int novoGrau = p->grau + q->grau;
     polinomio *r = poli_create(novoGrau);
 
@@ -135,7 +142,34 @@ polinomio * poli_mult(polinomio *p, polinomio *q){
 
 polinomio * poli_div(polinomio *p, polinomio *q){
     // TODO: Implemente aqui a solucao para operacao que divide dois polinomios e gera um terceiro
+    if(p == NULL || q == NULL) return NULL;
+    if(p->termos == 0 || q ->termos == 0) return NULL;
+    int resto_parcial = 0;
+    polinomio *r = poli_create(resto_parcial);
+    int maiorGrauP =0;
+    for(int i = 0; i < maiorGrauP;i++){
+        if(maiorGrauP<p->grau){
+            maiorGrauP = p->grau;
+        }
+    }
 
+    int maiorGrauQ =0;
+    for(int i = 0;i < maiorGrauQ;i++){
+        if(maiorGrauQ<q->grau){
+            maiorGrauQ = q->grau;
+        }
+    }
+
+
+    for(int i=0;r->grau<maiorGrauQ;i++){
+        int quociente = (maiorGrauP/ maiorGrauQ);
+        for(int j=0;j<q->termos;j++){
+            r->coeficientes[j] = quociente * (q->coeficientes[j]);
+        }
+        *r->coeficientes = (*p->coeficientes) - resto_parcial;
+        r->grau =maiorGrauQ;
+    }
+    return r;
     return NULL;
 }
 
