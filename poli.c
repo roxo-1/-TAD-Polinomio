@@ -2,8 +2,12 @@
 Carolina Lee - 10440304
 Pedro Gabriel Guimarães Fernandes - 10437465 
 */
+
+//gcc -g poli.c teste_poli.c -o teste_poli -lm
+//valgrind --leak-check=yes ./teste_poli
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "poli.h"
 
@@ -15,7 +19,7 @@ polinomio * poli_create(int grau){
 
     p->coeficientes = malloc((grau + 1) * sizeof(int)); // botar grau + 1 aqui, não entendi pq, imagino que seja porque o menor que pode ter é grau 1, faz sentido
     
-    for (int i = 0; i < grau; i++){
+    for (int i = 0; i <= grau; i++){
         p->coeficientes[i] = 0;
     }
         //acho que assim vai funcionar, vc entendeu?
@@ -69,29 +73,64 @@ int poli_ins_termo(polinomio *p, int exp, int coef) {
 
 int poli_get_termo(polinomio *p, int exp, int *coef){
     // TODO: Implemente aqui a solucao para operacao get coeficiente
-    if((p->coeficientes[exp] != 0) && (exp <= p->grau) && (exp >= 0)){
+    if((exp >= 0) && (exp <= p->grau) && (p->coeficientes[exp] != 0) ){
         *coef = p->coeficientes[exp];
         return 1;
     }
     return 0;
+
 }
 
 int calcula_px(polinomio *p, int x){
     // TODO: Implemente aqui a solucao para operacao calcula o valor de P(x)     
+    int soma = 0;
+    for (int i = 0; i <= p->grau; i++)
+    {
+        soma += p->coeficientes[i] * (pow(x, i));
+    }
     
-    return 0;
+    return soma;
 }
 
 polinomio * poli_soma(polinomio *p, polinomio *q){
     // TODO: Implemente aqui a solucao para operacao que soma dois polinomios e gera um terceiro
+    int novoGrau = 0;
+    if(p->grau > q->grau){
+        novoGrau = p->grau;
+    }else{
+        novoGrau = q->grau;
+    }
+    polinomio *r = poli_create(novoGrau);
+    
+    for (int i = 0; i <= novoGrau; i++)
+    {
+        int pCoef, qCoef = 0;
+        if(p->grau >= i){
+            pCoef = p->coeficientes[i];
+        }
+        if(q->grau >= i){
+            qCoef = q->coeficientes[i];
+        }
 
-    return NULL;
+        r->coeficientes[i] = pCoef + qCoef;
+    }
+    
+
+    return r;
 }
 
 polinomio * poli_mult(polinomio *p, polinomio *q){
     // TODO: Implemente aqui a solucao para operacao que multiplica dois polinomios e gera um terceiro
+    int novoGrau = p->grau + q->grau;
+    polinomio *r = poli_create(novoGrau);
 
-    return NULL;
+     for (int i = 0; i <= p->grau; i++) {
+        for (int j = 0; j <= q->grau; j++) {
+            r->coeficientes[i + j] += p->coeficientes[i] * q->coeficientes[j];
+        }
+    }
+
+    return r;
 }
 
 polinomio * poli_div(polinomio *p, polinomio *q){
