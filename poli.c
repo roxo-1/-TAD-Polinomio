@@ -21,20 +21,7 @@ polinomio * poli_create(int grau){
     for (int i = 0; i <= grau; i++){
         p->coeficientes[i] = 0;
     }
-        //acho que assim vai funcionar, vc entendeu?
-        //sisi, tá inicializando o array todo
-        // sim o queagente itnha esquecido foi de inicializar o malloc pra colocar espaço par a struct e zerar todods o coeficientes
-        //ahhhhh,e já agnt agnt não tinha inicializado aqui em cima ele não tem onde inserir lá embaixo isso, blz vou testar
-        //não sei vc consegue ver o terminal 
-        // mas o create continua funcionando, mas o termo continua errado alguma outra coisa ainda não funciona
-        // sim eu vejo, é que agente só arrumou o create tem que mexer no termo ainda, aaaa ok
-        return p;
-    // return NULL;
-    //Carol colo quei o outro codigo para ver se ele fazia sentido e pelo que entendi temos que inicializar o array de coeficientestambém
-    // mas o que eu não to entendedo é que no struct esse bagulho nõ é um array, é um ponteiro tipo ???? vou mandar um print no whats, ok
-    // aaaaaah, o doido mandou agnt criar o array, tendeu kkkkkkkkkkkk
-    //então pelo que entend
-    //mas ent n o malloc que eu tinha feito deveria funcionar, né? Nao porque o que vc fez é só o coeficuenten tem que fazer outro para o polinomio em si 
+        return p; 
 }
 
 void poli_destroy(polinomio **p){
@@ -144,33 +131,31 @@ polinomio * poli_div(polinomio *p, polinomio *q){
     // TODO: Implemente aqui a solucao para operacao que divide dois polinomios e gera um terceiro
     if(p == NULL || q == NULL) return NULL;
     if(p->termos == 0 || q ->termos == 0) return NULL;
-    int resto_parcial = 0;
-    polinomio *r = poli_create(resto_parcial);
-    int maiorGrauP =0;
-    for(int i = 0; i < maiorGrauP;i++){
-        if(maiorGrauP<p->grau){
-            maiorGrauP = p->grau;
+    if (p->grau < q->grau) {
+        return poli_create(0);
+    }
+
+    polinomio *resto = poli_create(p->grau);
+    polinomio *quociente = poli_create(p->grau - q->grau);
+
+    for (int i = 0; i <= p->grau; i++) {
+        resto->coeficientes[i] = p->coeficientes[i];
+    }
+
+    for (int i = p->grau; i >= q->grau; i--) {
+        float coef = resto->coeficientes[i] / q->coeficientes[q->grau];
+        int grau = i - q->grau;
+
+        quociente->coeficientes[grau] = coef;
+
+        for (int j = 0; j <= q->grau; j++) {
+            resto->coeficientes[j + grau] -= coef * q->coeficientes[j];
         }
     }
 
-    int maiorGrauQ =0;
-    for(int i = 0;i < maiorGrauQ;i++){
-        if(maiorGrauQ<q->grau){
-            maiorGrauQ = q->grau;
-        }
-    }
+    poli_destroy(&resto);
 
-
-    for(int i=0;r->grau<maiorGrauQ;i++){
-        int quociente = (maiorGrauP/ maiorGrauQ);
-        for(int j=0;j<q->termos;j++){
-            r->coeficientes[j] = quociente * (q->coeficientes[j]);
-        }
-        *r->coeficientes = (*p->coeficientes) - resto_parcial;
-        r->grau =maiorGrauQ;
-    }
-    return r;
-    return NULL;
+    return quociente;
 }
 
 
